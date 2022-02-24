@@ -6,7 +6,7 @@
             "cwd": "${workspaceRoot}",
             "executable": "./build/${workspaceFolderBasename}.elf",
             "request": "launch",
-            "preLaunchTask": "Quatro Build",
+            "preLaunchTask": "F405RG_Gyro Build",
             "type": "cortex-debug",
             "servertype": "openocd",
             "configFiles": [

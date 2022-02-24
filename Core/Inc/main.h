@@ -32,7 +32,16 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
+#include <math.h>
 
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
+#include "gpio.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

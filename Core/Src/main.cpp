@@ -19,14 +19,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "spi.h"
-#include "tim.h"
-#include "usart.h"
-#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "gyro.hpp"
+#include "my_header.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
