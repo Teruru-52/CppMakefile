@@ -1,1 +1,3 @@
-# F405RG-MPU6500-cpp
+# CppMakefile
+- F405RG
+- テストとしてMPU-6500の値を読む
