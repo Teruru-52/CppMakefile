@@ -1,26 +1,24 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "adc.h"
-#include "dma.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -28,12 +26,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "gyro.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+Gyro gyro;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -59,7 +57,36 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int count = 0;
+int led_count = 0;
+bool init_flag = false;
 
+extern "C" float yaw, gz;
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim == &htim3)
+  {
+    if (init_flag)
+    {
+      count = (count + 1) % 160;
+      if (count == 0)
+      { // time interruption 100Hz
+        gyro.GetGyroData();
+        led_count = (led_count + 1) % 100;
+        if (led_count == 0)
+        {
+          HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
+          printf("%f, %f \r\n", est_data[0], est_data[1]);
+        }
+        else
+        {
+          HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET);
+        }
+      }
+    }
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -90,22 +117,21 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
-  MX_TIM3_Init();
-  MX_TIM4_Init();
   MX_TIM10_Init();
   MX_TIM11_Init();
   MX_TIM12_Init();
-  MX_ADC1_Init();
   MX_TIM1_Init();
-  MX_TIM5_Init();
-  MX_TIM8_Init();
   MX_USART1_UART_Init();
-  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  setbuf(stdout, NULL);
+  gyro.IIRInit();
+  gyro.GyroInit();
+  gyro.GyroOffsetCalc();
+  init_flag = true;
   /* USER CODE END 2 */
 
   /* Infinite loop */

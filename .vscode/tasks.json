@@ -4,7 +4,7 @@
     "echoCommand": true,
     "tasks": [
         {
-            "label": "Quatro Build",
+            "label": "F405RG_Gyro Build",
             "command": "make.exe",
             "args": [
                 "all",
