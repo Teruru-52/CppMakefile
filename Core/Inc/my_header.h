@@ -1,7 +1,7 @@
 #ifndef _MY_HEADER_H_
 #define _MY_HEADER_H_
 
-#include "gyro.hpp"
+#include "gyro.h"
 
 #ifdef __cplusplus
 #include <vector>

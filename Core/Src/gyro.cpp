@@ -1,5 +1,4 @@
-#include "gyro.hpp"
-#include "stm32f4xx_hal.h"
+#include "gyro.h"
 
 uint8_t Gyro::read_byte(uint8_t reg)
 {

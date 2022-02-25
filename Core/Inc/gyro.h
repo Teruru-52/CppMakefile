@@ -1,5 +1,5 @@
-#ifndef _GYRO_HPP_
-#define _GYRO_HPP_
+#ifndef _GYRO_H_
+#define _GYRO_H_
 #include "main.h"
 
 #define ADDRESS 0x68
@@ -46,4 +46,4 @@ public:
   void GetGyroData();
 };
 
-#endif // _GYRO_HPP_
+#endif // _GYRO_H_

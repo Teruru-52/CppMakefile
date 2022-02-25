@@ -19,6 +19,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -57,8 +61,6 @@ int count = 0;
 int led_count = 0;
 bool init_flag = false;
 
-extern "C" float yaw, gz;
-
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   if (htim == &htim3)
@@ -73,7 +75,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         if (led_count == 0)
         {
           HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
-          printf("%f, %f \r\n", est_data[0], est_data[1]);
+          printf("%f, %f \r\n", gyro.yaw, gyro.gz);
         }
         else
         {
